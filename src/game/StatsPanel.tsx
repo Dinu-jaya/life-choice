@@ -15,13 +15,13 @@ const items: Array<{
 
 export function StatsPanel({ stats, turn, totalTurns }: { stats: Stats; turn: number; totalTurns: number }) {
   return (
-    <div className="rounded-2xl border bg-card/60 p-4 shadow-sm backdrop-blur">
+    <div className="glass rounded-3xl p-5 shadow-xl">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+        <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           Your Life
         </h3>
-        <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-          Turn {Math.min(turn, totalTurns)} / {totalTurns}
+        <span className="rounded-full border border-foreground/10 bg-card/60 px-2.5 py-0.5 text-xs font-medium tabular-nums text-foreground">
+          {Math.min(turn, totalTurns)} / {totalTurns}
         </span>
       </div>
       <div className="space-y-3">
