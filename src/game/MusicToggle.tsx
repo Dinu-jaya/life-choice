@@ -35,30 +35,30 @@ export function MusicToggle() {
     const master = ctx.createGain();
     master.gain.setValueAtTime(0.0001, ctx.currentTime);
     master.connect(ctx.destination);
-    master.gain.linearRampToValueAtTime(0.22, ctx.currentTime + 1.5);
+    master.gain.linearRampToValueAtTime(0.75, ctx.currentTime + 1.2);
 
     // Lowpass for warmth
     const filter = ctx.createBiquadFilter();
     filter.type = "lowpass";
-    filter.frequency.value = 900;
-    filter.Q.value = 0.7;
+    filter.frequency.value = 1400;
+    filter.Q.value = 0.9;
     filter.connect(master);
 
-    // A minor 7 pad: A2, C3, E3, G3, A3
-    const freqs = [110, 130.81, 164.81, 196, 220];
+    // A minor 9 pad: A2, C3, E3, G3, B3, A4 — richer, brighter
+    const freqs = [110, 130.81, 164.81, 196, 246.94, 440];
     const oscs: OscillatorNode[] = [];
     const gains: GainNode[] = [];
     freqs.forEach((f, i) => {
       const o = ctx.createOscillator();
-      o.type = i % 2 === 0 ? "sine" : "triangle";
+      o.type = i % 2 === 0 ? "triangle" : "sawtooth";
       o.frequency.value = f;
       const g = ctx.createGain();
-      g.gain.value = 0.18 / freqs.length;
+      g.gain.value = 0.55 / freqs.length;
       // Slight detune drift
       const lfo = ctx.createOscillator();
       const lfoGain = ctx.createGain();
       lfo.frequency.value = 0.1 + i * 0.03;
-      lfoGain.gain.value = 1.5;
+      lfoGain.gain.value = 4;
       lfo.connect(lfoGain);
       lfoGain.connect(o.detune);
       o.connect(g);
@@ -72,16 +72,39 @@ export function MusicToggle() {
     // Slow filter sweep for movement
     const sweep = ctx.createOscillator();
     const sweepGain = ctx.createGain();
-    sweep.frequency.value = 0.05;
-    sweepGain.gain.value = 350;
+    sweep.frequency.value = 0.08;
+    sweepGain.gain.value = 600;
     sweep.connect(sweepGain);
     sweepGain.connect(filter.frequency);
     sweep.start();
     oscs.push(sweep);
 
+    // Gentle arpeggio for engagement
+    const arpFreqs = [261.63, 329.63, 392, 523.25, 392, 329.63];
+    const arpGain = ctx.createGain();
+    arpGain.gain.value = 0;
+    arpGain.connect(filter);
+    const arp = ctx.createOscillator();
+    arp.type = "sine";
+    arp.connect(arpGain);
+    arp.start();
+    oscs.push(arp);
+    let step = 0;
+    const arpInterval = window.setInterval(() => {
+      const t = ctx.currentTime;
+      const f = arpFreqs[step % arpFreqs.length];
+      arp.frequency.setValueAtTime(f, t);
+      arpGain.gain.cancelScheduledValues(t);
+      arpGain.gain.setValueAtTime(0.0001, t);
+      arpGain.gain.exponentialRampToValueAtTime(0.18, t + 0.05);
+      arpGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+      step++;
+    }, 650);
+
     nodesRef.current = {
       stop: () => {
         try {
+          clearInterval(arpInterval);
           master.gain.cancelScheduledValues(ctx.currentTime);
           master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
           setTimeout(() => {
