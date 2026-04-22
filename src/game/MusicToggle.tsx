@@ -23,10 +23,19 @@ export function MusicToggle() {
     const ctx = new Ctx();
     ctxRef.current = ctx;
 
+    // Browsers require an explicit resume tied to the user gesture
+    if (ctx.state === "suspended") {
+      try {
+        await ctx.resume();
+      } catch {
+        // ignore
+      }
+    }
+
     const master = ctx.createGain();
-    master.gain.value = 0;
+    master.gain.setValueAtTime(0.0001, ctx.currentTime);
     master.connect(ctx.destination);
-    master.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 1.5);
+    master.gain.linearRampToValueAtTime(0.22, ctx.currentTime + 1.5);
 
     // Lowpass for warmth
     const filter = ctx.createBiquadFilter();
