@@ -60,27 +60,24 @@ export function computeEnding(stats: Stats): EndingKey {
 
 export const ENDINGS: Record<
   EndingKey,
-  { title: string; emoji: string; blurb: string; vibe: string }
+  { title: string; blurb: string; vibe: string }
 > = {
   successful: {
-    title: "Successful Developer",
-    emoji: "🚀",
+    title: "The Climb",
     blurb:
-      "You shipped your first big project, your inbox is full of cheers, and your future is glowing.",
-    vibe: "triumphant developer celebrating with confetti",
+      "You traded sleep for momentum and it paid off. The job offer came through. People are starting to know your name. The view from up here is sharper, lonelier, and exactly what you wanted.",
+    vibe: "young professional alone in a high-rise office at dusk, city lights, contemplative",
   },
   balanced: {
-    title: "Balanced Life",
-    emoji: "🌱",
+    title: "The Long Way Home",
     blurb:
-      "You found your rhythm — work that fits, friends who matter, and weekends that feel like vacation.",
-    vibe: "cozy picnic with friends in a sunny park",
+      "You picked the people. Sunday dinners, a job that fits, someone who knows your coffee order. It's not a headline. It's a life — and most days, that's the better deal.",
+    vibe: "warm intimate kitchen scene at golden hour, friends laughing around a table",
   },
   burnout: {
-    title: "Time to Reset",
-    emoji: "🌅",
+    title: "The Reset",
     blurb:
-      "Things got wobbly, but you booked a tiny trip, took a long nap, and tomorrow looks bright.",
-    vibe: "peaceful hammock by a calm lake at sunrise",
+      "Something cracked open. You stopped, finally. The semester behind you is a blur, but you're still here — and that means there's a next chapter to write differently.",
+    vibe: "lone figure on a quiet beach at dawn, soft fog, hopeful stillness",
   },
 };
