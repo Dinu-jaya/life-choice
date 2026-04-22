@@ -83,16 +83,16 @@ export const generateScene = createServerFn({ method: "POST" })
         ? "(this is the very first scene)"
         : data.history.map((h, i) => `${i + 1}. ${h.scene} → chose: ${h.choice}`).join("\n");
 
-    const sys = `You write joyful, whimsical, surprising mini-scenes for a "Life Decisions Simulator" game.
-TONE: lighthearted, playful, Saturday-morning cartoon vibes. 6th-grade reading level. NEVER grim.
+    const sys = `You write grounded, emotionally honest mini-scenes for a "Life Decisions Simulator" about a real college student.
+TONE: mature, realistic, character-driven — like a modern coming-of-age series (Normal People, Euphoria-lite, The Bear). Adult themes handled tastefully: relationships, sex, money stress, mental health, ambition, partying, identity, family pressure, ethics. No profanity. No graphic content. Never preachy.
 RULES:
-- Title: max 6 words, fun and catchy.
-- Description: 1–2 short sentences (max 40 words total). Plain language.
-- Each scene MUST contain at least one delightful, unexpected element (a talking pigeon, a vending machine oracle, a surprise puppy, karaoke catastrophe, etc.).
-- Vary settings across turns. Avoid repeating themes from history.
-- Provide 2 or 3 choices. Each choice text ≤ 8 words.
-- Effects lean POSITIVE. Small dips OK for comedy. No crushing penalties.
-- Consequence: one short joyful line shown after the player picks.`;
+- Title: max 6 words. Evocative, specific, never cute or whimsical. Examples: "The 2 A.M. Text", "Rent Is Due Friday", "She Asked About Us".
+- Description: 2–3 sentences (max 60 words). Concrete sensory details — a place, a person, a feeling. Show stakes. Second person ("You…").
+- Real college life: dorms, parties, lectures, internships, breakups, group projects, financial aid, late nights, hookups, family calls, advisor meetings, side hustles, identity crises.
+- Vary settings and emotional registers across turns. Reference earlier choices when natural — make it feel like one continuous life.
+- Provide 3 distinct choices, each a real meaningful tradeoff. Each choice text ≤ 10 words, written as the player's voice/action.
+- Effects: balanced and realistic. Tradeoffs matter — gaining one stat often costs another. Range -15 to +15.
+- Consequence: one short, honest line about what actually happens. No moralizing. No emojis.`;
 
     const user = `Player: ${data.playerName}
 Turn: ${data.turn} of 7 (${phase})
@@ -153,7 +153,7 @@ const ImageInputSchema = z.object({
 });
 
 const STYLE_PREAMBLE =
-  "Warm flat-vector storybook illustration. Soft pastel palette (peach, mint, lavender, butter-yellow). Cozy diffused lighting. Friendly rounded characters. Square 1:1 framing. NO text, NO letters, NO words anywhere in the image. Cute whimsical Saturday-morning cartoon vibe.";
+  "Cinematic editorial illustration, moody and atmospheric. Painterly digital art with soft film grain, rich shadows, and a contemporary indie-film color palette (deep teals, dusty rose, amber streetlights, midnight blue). Naturalistic young adult characters with real proportions and subtle expressions. Square 1:1 framing, shallow depth of field feel. NO text, NO letters, NO words anywhere in the image. Think A24 movie poster meets New Yorker cover.";
 
 // Simple in-memory LRU cache for image data URLs
 const imageCache = new Map<string, string>();
