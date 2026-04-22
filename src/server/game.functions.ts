@@ -44,17 +44,17 @@ const SceneToolSchema = {
       items: {
         type: "object",
         properties: {
-          text: { type: "string", description: "Short choice label, max 8 words" },
+          text: { type: "string", description: "Player-voice choice, max 10 words" },
           consequence: {
             type: "string",
-            description: "One-line happy outcome shown after picking",
+            description: "One honest line about what actually happens",
           },
           effects: {
             type: "object",
             properties: {
-              skills: { type: "integer", minimum: -10, maximum: 20 },
-              money: { type: "integer", minimum: -10, maximum: 20 },
-              happiness: { type: "integer", minimum: -10, maximum: 20 },
+              skills: { type: "integer", minimum: -15, maximum: 15 },
+              money: { type: "integer", minimum: -15, maximum: 15 },
+              happiness: { type: "integer", minimum: -15, maximum: 15 },
             },
             required: ["skills", "money", "happiness"],
             additionalProperties: false,
